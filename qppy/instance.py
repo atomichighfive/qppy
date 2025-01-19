@@ -1,6 +1,5 @@
 from typing import Optional, Union
 from enum import Enum
-import warnings
 
 import numpy as np
 import numba as nb
