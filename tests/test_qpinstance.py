@@ -58,7 +58,7 @@ def test_qpinstance_vectorized_is_same():
     
     for i_instance in range(100):
         N_variables = np.random.randint(1, 10)
-        N_constraints = np.random.randint(1, 10)
+        N_constraints = np.random.randint(0, 10)
 
         I = qp.Instance()
         for i_variable in range(0, N_variables):
