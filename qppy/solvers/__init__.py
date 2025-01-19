@@ -1,2 +1,2 @@
 from .solver import Solver
-from .grid_search import GridSearchSolver
+from .interior_point import InteriorPointSolver
