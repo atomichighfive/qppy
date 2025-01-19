@@ -13,7 +13,7 @@ def test_qpinstance_correct_objective_value():
     def correct_func(x):
         return 2.0*x[0]**2 - 3.0*x[0]*x[1] - 1.0*x[1]
     
-    np.random.seed(0)
+    np.random.seed(1)
 
     X = [
         I.solution_from_dict({'x': 1.0, 'y': np.random.uniform(-10.0, 10.0)})
@@ -42,7 +42,7 @@ def test_qpinstance_correct_feasibility_check():
     def correct_check(x):
         return x[0] <= 0.9 and x[1] >= -0.4 and x[1] <= 0.6 and x[0] + 1.5*x[1] <= 0.5
     
-    np.random.seed(0)
+    np.random.seed(1)
     X = [
         I.solution_from_dict({'x': 1.0, 'y': np.random.uniform(-10.0, 10.0)})
         for _ in range(10000)
@@ -54,7 +54,7 @@ def test_qpinstance_correct_feasibility_check():
 
 
 def test_qpinstance_vectorized_is_same():
-    np.random.seed(0)
+    np.random.seed(1)
     
     for i_instance in range(100):
         N_variables = np.random.randint(1, 10)
