@@ -11,7 +11,7 @@ class ConstraintRelation(Enum):
     GREATER_THAN = 3
 
 class VariableDomain(Enum):
-    CONTINUOUS = 1
+    REAL = 1
     BINARY = 2
     INTEGER = 3
 
@@ -67,7 +67,7 @@ class LinearConstraint:
             raise NotImplementedError(f"Equality constraints not supported but {self.name} is an equality constraint.")
     
 class Variable:
-    def __init__(self, name: str, lower_bound: Optional[float] = None, upper_bound: Optional[float] = None, domain: VariableDomain = VariableDomain.CONTINUOUS):
+    def __init__(self, name: str, lower_bound: Optional[float] = None, upper_bound: Optional[float] = None, domain: VariableDomain = VariableDomain.REAL):
         assert isinstance(name, str), "Variable name must be a string."
         self.name = name
         self.domain = domain
@@ -219,12 +219,12 @@ class Instance:
         self._linear_constraint_index[constraint.name] = len(self._linear_constraints)
         self._linear_constraints[constraint.name] = constraint
 
-    def add_quadratic_objective_term(self, variable1_name: str, variable2_name: str, coefficient: float):
+    def add_quadratic_objective_term(self, v1_name: str, v2_name: str, coefficient: float):
         assert not self._compiled, "Cannot add objective terms after compiling the instance."
-        assert variable1_name in self._variables, f"Variable {variable1_name} not in instance"
-        assert variable2_name in self._variables, f"Variable {variable2_name} not in instance"
+        assert v1_name in self._variables, f"Variable {v1_name} not in instance"
+        assert v2_name in self._variables, f"Variable {v2_name} not in instance"
         
-        pair = frozenset([variable1_name, variable2_name])
+        pair = frozenset([v1_name, v2_name])
         assert pair not in self.quadratic_objective_terms, f"Quadratic term for {pair} already exists."
 
         self.quadratic_objective_terms[pair] = coefficient
@@ -317,7 +317,7 @@ class Instance:
             lines.append(f"\t{variable.name} in [{variable.lower_bound if variable.lower_bound is not None else 'inf'}, {variable.upper_bound if variable.upper_bound is not None else 'inf'}]")
         for variable in self.variables.values():
             match variable.domain:
-                case VariableDomain.CONTINUOUS:
+                case VariableDomain.REAL:
                     lines.append(f"\t{variable.name} in R")
                 case VariableDomain.BINARY:
                     lines.append(f"\t{variable.name} in {{0, 1}}")
